@@ -7,6 +7,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import retrofit2.Call
+import android.util.Log
 import retrofit2.Callback
 import retrofit2.Response
 
@@ -43,19 +44,29 @@ class RegisterActivity : AppCompatActivity() {
         val apiService = RetrofitInstance.api
         val call = apiService.registrarUsuario(request)
 
+        // Agrega este log
+        Log.d("RegisterDebug", "Datos enviados: $request")
+
         call.enqueue(object : Callback<RegisterResponse> {
             override fun onResponse(call: Call<RegisterResponse>, response: Response<RegisterResponse>) {
-                if (response.isSuccessful) {
+                Log.d("RegisterDebug", "Código de respuesta: ${response.code()}")
+
+                if (response.isSuccessful && response.body() != null) {
                     Toast.makeText(applicationContext, "Registro exitoso", Toast.LENGTH_LONG).show()
                     finish() // Cierra la actividad de registro
                 } else {
-                    Toast.makeText(applicationContext, "Error en el registro", Toast.LENGTH_LONG).show()
+                    val errorBody = response.errorBody()?.string()
+                    Log.e("RegisterDebug", "Error en el registro. Body: $errorBody")
+                    Toast.makeText(applicationContext, "Error en el registro: $errorBody", Toast.LENGTH_LONG).show()
                 }
             }
 
             override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
+                Log.e("RegisterDebug", "Fallo de conexión", t)
                 Toast.makeText(applicationContext, "Error de conexión: ${t.message}", Toast.LENGTH_LONG).show()
             }
         })
     }
+
 }
+
