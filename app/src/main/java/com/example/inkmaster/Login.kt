@@ -1,6 +1,5 @@
 package com.example.inkmaster
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -20,6 +19,7 @@ class Login : AppCompatActivity() {
         val emailEditText = findViewById<EditText>(R.id.editTextEmail)
         val passwordEditText = findViewById<EditText>(R.id.editTextPassword)
         val loginButton = findViewById<Button>(R.id.buttonLogin)
+        val registerButton = findViewById<Button>(R.id.button2) // 🔹 Agregar botón de registro
 
         loginButton.setOnClickListener {
             val email = emailEditText.text.toString().trim()
@@ -38,16 +38,7 @@ class Login : AppCompatActivity() {
                     if (response.isSuccessful && response.body() != null) {
                         val loginResponse = response.body()
                         if (loginResponse!!.status == 200) {
-                            // Guardar el token en SharedPreferences
-                            val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
-                            with(sharedPref.edit()) {
-                                putString("USER_TOKEN", loginResponse.token)
-                                apply()
-                            }
-
                             Toast.makeText(applicationContext, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
-
-                            // Ir a la pantalla principal
                             val intent = Intent(applicationContext, MainActivity::class.java)
                             startActivity(intent)
                             finish()
@@ -64,5 +55,12 @@ class Login : AppCompatActivity() {
                 }
             })
         }
+
+        // 🔹 Agregar evento para abrir la pantalla de registro
+        registerButton.setOnClickListener {
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
+

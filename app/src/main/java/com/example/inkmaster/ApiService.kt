@@ -5,6 +5,13 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface ApiService {
-    @POST("api/login")  // 👈 Ajusta esto según la ruta de tu API en Laravel
+    @POST("login")  // 👈 Ajusta esto según la ruta de tu API en Laravel
     fun login(@Body request: LoginRequest): Call<LoginResponse>
-}
+
+
+
+        @POST("cliente") // No pongas /api/ aquí, ya está en baseUrl
+        fun registrarUsuario(@Body request: RegisterRequest): Call<RegisterResponse>
+    }
+
+
