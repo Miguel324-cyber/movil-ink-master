@@ -30,6 +30,12 @@
         <activity
             android:name=".RegisterActivity"
             android:exported="true"/>
+
+        <activity
+            android:name=".ReservaCitaActivity"
+            android:exported="false"/>
+
     </application>
+
 
 </manifest>

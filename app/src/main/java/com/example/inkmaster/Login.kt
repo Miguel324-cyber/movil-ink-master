@@ -39,7 +39,8 @@ class Login : AppCompatActivity() {
                         val loginResponse = response.body()
                         if (loginResponse!!.status == 200) {
                             Toast.makeText(applicationContext, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
-                            val intent = Intent(applicationContext, MainActivity::class.java)
+                            val intent = Intent(applicationContext, ReservaCitaActivity::class.java)
+                            intent.putExtra("idCliente", loginResponse.cliente?.idCliente ?: -1)
                             startActivity(intent)
                             finish()
                         } else {

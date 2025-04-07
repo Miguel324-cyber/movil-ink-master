@@ -6,7 +6,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 
 object RetrofitInstance {
-    private const val BASE_URL = "http://192.168.137.250:8000/api/" // 🔹 Cambia por la URL de tu API
+    private const val BASE_URL = "http://192.168.1.33:8000/api/" // 🔹 Cambia por la URL de tu API
 
     private val logging = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
