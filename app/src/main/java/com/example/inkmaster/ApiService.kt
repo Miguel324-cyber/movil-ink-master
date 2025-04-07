@@ -8,10 +8,12 @@ interface ApiService {
     @POST("login")  // 👈 Ajusta esto según la ruta de tu API en Laravel
     fun login(@Body request: LoginRequest): Call<LoginResponse>
 
-
-
-        @POST("cliente") // No pongas /api/ aquí, ya está en baseUrl
+    @POST("cliente") // No pongas /api/ aquí, ya está en baseUrl
         fun registrarUsuario(@Body request: RegisterRequest): Call<RegisterResponse>
-    }
+
+    @POST("cita")
+    fun crearCita(@Body citaRequest: CitaRequest): Call<CitaResponse>
+
+}
 
 

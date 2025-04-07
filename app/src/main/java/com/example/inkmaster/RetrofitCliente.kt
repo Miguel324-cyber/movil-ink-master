@@ -19,7 +19,7 @@ object RetrofitCliente {
     // 🔹 Instancia de Retrofit
     private val retrofit: Retrofit by lazy {
         Retrofit.Builder()
-            .baseUrl("http://192.168.137.250:8000/api/")
+            .baseUrl("http://192.168.1.33:8000/api/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()
