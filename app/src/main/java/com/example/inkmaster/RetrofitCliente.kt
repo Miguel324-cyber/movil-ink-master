@@ -6,28 +6,27 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 
 object RetrofitCliente {
-    private var retrofit: Retrofit? = null
-
-    fun getClient(): Retrofit {
-        if (retrofit == null) {
-            val logging = HttpLoggingInterceptor()
-            logging.setLevel(HttpLoggingInterceptor.Level.BODY)
-
-            val client = OkHttpClient.Builder()
-                .addInterceptor(logging)
-                .build()
-
-            retrofit = Retrofit.Builder()
-                .baseUrl("http://192.168.137.250:8000") // 👉 Cambia por la IP o dominio de tu Laravel
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(client)
-                .build()
+    // 🔹 Cliente HTTP con logging
+    private val client: OkHttpClient by lazy {
+        val logging = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
         }
-        return retrofit!!
+        OkHttpClient.Builder()
+            .addInterceptor(logging)
+            .build()
     }
 
-    // 🔹 Agrega esta parte para la instancia del servicio
+    // 🔹 Instancia de Retrofit
+    private val retrofit: Retrofit by lazy {
+        Retrofit.Builder()
+            .baseUrl("http://192.168.1.33:8000/api/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(client)
+            .build()
+    }
+
+    // 🔹 Instancia del servicio API
     val instance: ApiService by lazy {
-        getClient().create(ApiService::class.java)
+        retrofit.create(ApiService::class.java)
     }
 }
