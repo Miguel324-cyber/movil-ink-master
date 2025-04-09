@@ -1,13 +1,15 @@
 package com.example.inkmaster
 
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import android.util.Log
-
+import java.util.*
 
 class ReservaCitaActivity : AppCompatActivity() {
 
@@ -29,6 +31,45 @@ class ReservaCitaActivity : AppCompatActivity() {
         // 🔐 Recibir idCliente desde el Login
         idCliente = intent.getIntExtra("idCliente", -1)
 
+        // 🔔 Evita escribir directamente y permite solo seleccionar
+        fechaEditText.isFocusable = false
+        fechaEditText.isClickable = true
+        horaEditText.isFocusable = false
+        horaEditText.isClickable = true
+
+        // 📅 Selección de fecha con calendario
+        fechaEditText.setOnClickListener {
+            val calendario = Calendar.getInstance()
+            val datePicker = DatePickerDialog(
+                this,
+                { _, year, month, dayOfMonth ->
+                    val fechaSeleccionada = String.format("%04d-%02d-%02d", year, month + 1, dayOfMonth)
+                    fechaEditText.setText(fechaSeleccionada)
+                },
+                calendario.get(Calendar.YEAR),
+                calendario.get(Calendar.MONTH),
+                calendario.get(Calendar.DAY_OF_MONTH)
+            )
+            datePicker.show()
+        }
+
+        // ⏰ Selección de hora con reloj
+        horaEditText.setOnClickListener {
+            val calendario = Calendar.getInstance()
+            val timePicker = TimePickerDialog(
+                this,
+                { _, hourOfDay, minute ->
+                    val horaSeleccionada = String.format("%02d:%02d", hourOfDay, minute)
+                    horaEditText.setText(horaSeleccionada)
+                },
+                calendario.get(Calendar.HOUR_OF_DAY),
+                calendario.get(Calendar.MINUTE),
+                true // formato 24 horas
+            )
+            timePicker.show()
+        }
+
+        // 📩 Enviar cita al servidor
         botonReservar.setOnClickListener {
             val fecha = fechaEditText.text.toString()
             val hora = horaEditText.text.toString()
@@ -55,7 +96,6 @@ class ReservaCitaActivity : AppCompatActivity() {
                         Log.e("ReservaCita", "Código: ${response.code()} - Error: ${response.errorBody()?.string()}")
                         Toast.makeText(applicationContext, "Error al reservar cita", Toast.LENGTH_SHORT).show()
                     }
-
                 }
 
                 override fun onFailure(call: Call<CitaResponse>, t: Throwable) {
