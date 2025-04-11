@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#121212">
+
+    <LinearLayout
+        android:padding="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Citas del Empleado"
+            android:textSize="24sp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Tabla de encabezado -->
+        <TableLayout
+            android:id="@+id/tableLayoutCitas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="*"
+            android:background="#F5F5F5"> <!-- Fondo gris claro para mejor visibilidad -->
+
+            <TableRow>
+                <TextView
+                    android:text="ID"
+                    android:textColor="#FFFFFF"
+                    android:padding="8dp"
+                    android:textStyle="bold"
+                    android:background="#8A0D0D"/>
+                <TextView
+                    android:text="Fecha"
+                    android:textColor="#FFFFFF"
+                    android:padding="8dp"
+                    android:textStyle="bold"
+                    android:background="#8A0D0D"/>
+                <TextView
+                    android:text="Hora"
+                    android:textColor="#FFFFFF"
+                    android:padding="8dp"
+                    android:textStyle="bold"
+                    android:background="#8A0D0D"/>
+                <TextView
+                    android:text="Cliente"
+                    android:textColor="#FFFFFF"
+                    android:padding="8dp"
+                    android:textStyle="bold"
+                    android:background="#8A0D0D"/>
+            </TableRow>
+
+            <!-- Filas de citas se agregarán dinámicamente desde Kotlin -->
+
+        </TableLayout>
+
+    </LinearLayout>
+</ScrollView>

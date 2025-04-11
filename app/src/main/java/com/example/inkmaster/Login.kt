@@ -14,12 +14,12 @@ class Login : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login) // Asegúrate de tener un XML para el login
+        setContentView(R.layout.activity_login)
 
         val emailEditText = findViewById<EditText>(R.id.editTextEmail)
         val passwordEditText = findViewById<EditText>(R.id.editTextPassword)
         val loginButton = findViewById<Button>(R.id.buttonLogin)
-        val registerButton = findViewById<Button>(R.id.button2) // 🔹 Agregar botón de registro
+        val registerButton = findViewById<Button>(R.id.button2)
 
         loginButton.setOnClickListener {
             val email = emailEditText.text.toString().trim()
@@ -36,15 +36,33 @@ class Login : AppCompatActivity() {
             call.enqueue(object : Callback<LoginResponse> {
                 override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                     if (response.isSuccessful && response.body() != null) {
-                        val loginResponse = response.body()
-                        if (loginResponse!!.status == 200) {
+                        val loginResponse = response.body()!!
+
+                        if (loginResponse.status == 200) {
                             Toast.makeText(applicationContext, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
-                            val intent = Intent(applicationContext, ReservaCitaActivity::class.java)
-                            intent.putExtra("idCliente", loginResponse.cliente?.idCliente ?: -1)
-                            startActivity(intent)
-                            finish()
+
+                            when (loginResponse.tipo) {
+                                "cliente" -> {
+                                    val intent = Intent(applicationContext, ReservaCitaActivity::class.java)
+                                    intent.putExtra("idCliente", loginResponse.cliente?.idCliente ?: -1)
+                                    startActivity(intent)
+                                    finish()
+                                }
+
+                                "empleado" -> {
+                                    val intent = Intent(applicationContext, CitasEmpleadoActivity::class.java)
+                                    intent.putExtra("idEmpleado", loginResponse.empleado?.idEmpleado ?: -1)
+                                    startActivity(intent)
+                                    finish()
+                                }
+
+                                else -> {
+                                    Toast.makeText(applicationContext, "Tipo de usuario desconocido", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+
                         } else {
-                            Toast.makeText(applicationContext, loginResponse.message, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(applicationContext, loginResponse.message ?: "Error desconocido", Toast.LENGTH_SHORT).show()
                         }
                     } else {
                         Toast.makeText(applicationContext, "Error en el servidor", Toast.LENGTH_SHORT).show()
@@ -57,11 +75,9 @@ class Login : AppCompatActivity() {
             })
         }
 
-        // 🔹 Agregar evento para abrir la pantalla de registro
         registerButton.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
     }
 }
-
