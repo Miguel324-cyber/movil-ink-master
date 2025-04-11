@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#121212"
+    android:background="@drawable/fondo"
     tools:context=".RegisterActivity">
 
     <LinearLayout
@@ -96,7 +96,7 @@
             android:layout_height="50dp"
             android:text="Registrarse"
             android:textColor="#FFFFFF"
-            android:backgroundTint="#D81B60"
+            android:backgroundTint="#000000"
             android:layout_marginTop="24dp" />
 
     </LinearLayout>
